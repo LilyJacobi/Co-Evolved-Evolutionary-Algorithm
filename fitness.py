@@ -219,13 +219,17 @@ def play_GPac(pac_controller, map_gene, height, width, ghost_type='wander', ghos
 					actions = game.get_actions(player=player)
 					s_primes = game.get_observations(actions, player=player)
 					selected_action = None
-					# YOUR PAC-MAN CODE GOES HERE##############################
-					# TODO: score states stored in s_prime with pac_controller
-
+					stateScores = []
+					for state in s_primes:
+						stateScores.append(pac_controller.evaluateTree(state, pac_controller.root))
 					# TODO: assign index of state with the best score to selected_action
-
-					# YOUR CODE (PROBABLY) ENDS HERE###########################
-					# register selected action with game
+					if('selectionType' in kwargs):
+						if(kwargs['selectionType'] == "min"):
+							selected_action = stateScores.index(min(stateScores))
+						elif(kwargs['selectionType'] == "max"):
+							selected_action = stateScores.index(max(stateScores))
+					else:
+						selected_action = stateScores.index(min(stateScores))
 					game.register_action(actions[selected_action], player=player)
 				else:
 					game.register_action(pac[player].select_action(game, player), player)
@@ -235,15 +239,21 @@ def play_GPac(pac_controller, map_gene, height, width, ghost_type='wander', ghos
 					actions = game.get_actions(player=player)
 					s_primes = game.get_observations(actions, player=player)
 					selected_action = None
-					# YOUR GHOST CODE GOES HERE################################
-					# TODO: score states stored in s_prime with ghost_controller
 
+					stateScores = []
+					for state in s_primes:
+						stateScores.append(pac_controller.evaluateTree(state, pac_controller.root, player))
 					# TODO: assign index of state with the best score to selected_action
-
-					# YOUR CODE (PROBABLY) ENDS HERE###########################
-					# register selected action with game
+					if('selectionType' in kwargs):
+						if(kwargs['selectionType'] == "min"):
+							selected_action = stateScores.index(min(stateScores))
+						elif(kwargs['selectionType'] == "max"):
+							selected_action = stateScores.index(max(stateScores))
+					else:
+						selected_action = stateScores.index(min(stateScores))
 					game.register_action(actions[selected_action], player=player)
 				else:
 					game.register_action(ghosts[player].select_action(game, player), player)
 		game.step()
 	return game.score, game.log
+	

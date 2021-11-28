@@ -1,3 +1,4 @@
+from random import random, shuffle
 class baseEvolutionPopulation():
 	def __init__(self, individual_class, mu, num_children, mutation_rate,
 				 parent_selection, survival_selection,
@@ -18,18 +19,14 @@ class baseEvolutionPopulation():
 
 	def generate_children(self):
 		children = list()
-
-		# TODO: Select parents
-		# hint: self.parent_selection(self.population, **self.parent_selection_kwargs)
-		# pass
-
-		# TODO: Recombine parents to generate children
-		# pass
-
-		# TODO: Mutate children if appropriate
-		# pass
-
-		# return children
+		numberOfParents = 2*self.num_children
+		parents = self.parent_selection(self.population, numberOfParents, **self.parent_selection_kwargs)
+		shuffle(parents)
+		for i in range(0, numberOfParents, 2):
+			child = parents[i].recombine(parents[i+1], **self.recombination_kwargs)
+			if(random() < self.mutation_rate): 
+				child = child.mutate(**self.mutation_kwargs)
+			children.append(child)
 		return children
 
 

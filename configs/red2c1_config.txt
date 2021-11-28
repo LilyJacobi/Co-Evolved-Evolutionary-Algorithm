@@ -7,10 +7,58 @@ pill_spawn = linear
 pill_density = 0.05
 fruit_prob = 0.1
 fruit_score = 10
-ghost_type = chase
+ghost_type = genetic
+penalty_coefficient = 0.2
+opponentCount = 1
 
-[initialization_kwargs]
+[pac_GP_configs]
+mu = 200
+num_children = 100
+mutation_rate = 0.05
+individual_class = treeGenotype
+parent_selection = k_tournament_with_replacement
+survival_selection = truncation
+
+[pac_initialization_kwargs]
 depth_limit = 5
 operatorPrimitives = ['+','-','*','/','RAND']
 sensorPrimitives = ['G', 'P', 'W', 'F', '#.#']
 constantRange = [-10,10]
+
+
+[pac_parent_selection_kwargs]
+k = 5
+[pac_recombination_kwargs]
+depth_limit = 5
+
+[pac_mutation_kwargs]
+depth_limit = 5
+
+[pac_survival_selection_kwargs]
+
+[ghost_GP_configs]
+mu = 200
+num_children = 100
+mutation_rate = 0.05
+individual_class = treeGenotype
+parent_selection = k_tournament_with_replacement
+survival_selection = truncation
+
+[ghost_initialization_kwargs]
+depth_limit = 5
+operatorPrimitives = ['+','-','*','/','RAND']
+sensorPrimitives = ['G', 'PAC', 'W',#.#']
+constantRange = [-10,10]
+[ghost_parent_selection_kwargs]
+k = 5
+
+
+[ghost_recombination_kwargs]
+depth_limit = 5
+
+[ghost_mutation_kwargs]
+depth_limit = 5
+
+[ghost_survival_selection_kwargs]
+
+

@@ -1,14 +1,15 @@
 from baseEvolution import baseEvolutionPopulation
-
+from random import random
 class geneticProgrammingPopulation(baseEvolutionPopulation):
 	def generate_children(self):
 		children = list()
-		# TODO: Select parents
-		# hint: self.parent_selection(self.population, **self.parent_selection_kwargs)
-		pass
-
-		# TODO: Generate children by either recombining two parents OR
-		#		generating a mutated copy of a single parent
-		pass
-
+		
+		numberOfParents = 2*self.num_children
+		parents = self.parent_selection(self.population, numberOfParents, **self.parent_selection_kwargs)
+		for i in range(0, numberOfParents, 2):
+			if(random() < self.mutation_rate): 
+				child = parents[1].mutate(**self.mutation_kwargs)
+			else:
+				child = parents[i].recombine(parents[i+1], **self.recombination_kwargs)
+			children.append(child)
 		return children

@@ -1,5 +1,4 @@
 import random
-
 GHOST_ACTIONS = {'up':(0,1), 'right':(1,0), 'down':(0,-1), 'left':(-1,0)}
 PAC_ACTIONS = {'hold':(0,0)}
 PAC_ACTIONS.update(GHOST_ACTIONS)
@@ -146,7 +145,7 @@ class GPacGame():
 	def step(self):
 		self.time -= 1
 		old_locations = self.players.copy()
-		touched_pills = set()
+		touched_pills = list()
 		touched_fruit = False
 		
 		# update player locations from registered actions
@@ -159,7 +158,7 @@ class GPacGame():
 				x_shift, y_shift = PAC_ACTIONS[action]
 				self.players[player] = pac = (x+x_shift, y+y_shift)
 				if pac in self.pills:
-					touched_pills.add(pac)
+					touched_pills.append(pac)
 				touched_fruit = pac == self.fruit_location
 			else:
 				x_shift, y_shift = GHOST_ACTIONS[action]
